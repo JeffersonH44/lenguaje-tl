@@ -185,7 +185,7 @@ decorated
 
 /// funcdef: 'def' NAME parameters ['->' test] ':' suite
 funcdef
- : DEF NAME parameters suite 'end' 'funcion'
+ : DEF NAME parameters suite 'end' DEF
  ;
 
 /// parameters: '(' [typedargslist] ')'
@@ -225,6 +225,10 @@ varargslist
 /// vfpdef: NAME
 vfpdef
  : NAME
+ ;
+
+block_stmt
+ : ( simple_stmt | OPEN_BRACE suite CLOSE_BRACE)
  ;
 
 /// stmt: simple_stmt | compound_stmt
@@ -404,17 +408,17 @@ compound_stmt
 
 /// if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
 if_stmt
- : IF test ':' suite ( ELIF test ':' suite )* ( ELSE ':' suite )?
+ : IF test block_stmt ( ELSE IF test block_stmt )* ( ELSE block_stmt )?
  ;
 
 /// while_stmt: 'while' test ':' suite ['else' ':' suite]
 while_stmt
- : WHILE test ( simple_stmt | OPEN_BRACE suite CLOSE_BRACE)
+ : WHILE test block_stmt
  ;
 
 /// for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
 for_stmt
- : FOR exprlist IN testlist ( simple_stmt | OPEN_BRACE suite CLOSE_BRACE )
+ : FOR exprlist IN testlist block_stmt
  ;
 
 /// try_stmt: ('try' ':' suite
@@ -711,7 +715,7 @@ integer
  */
 
 DEF : 'funcion';
-RETURN : 'return';
+RETURN : 'retorno';
 RAISE : 'raise';
 FROM : 'desde';
 IMPORT : 'importar';

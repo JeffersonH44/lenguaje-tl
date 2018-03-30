@@ -15,6 +15,7 @@ import { TypedargslistContext } from './Python3Parser';
 import { TfpdefContext } from './Python3Parser';
 import { VarargslistContext } from './Python3Parser';
 import { VfpdefContext } from './Python3Parser';
+import { Block_stmtContext } from './Python3Parser';
 import { StmtContext } from './Python3Parser';
 import { Simple_stmtContext } from './Python3Parser';
 import { Small_stmtContext } from './Python3Parser';
@@ -225,6 +226,17 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitVfpdef?: (ctx: VfpdefContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `Python3Parser.block_stmt`.
+	 * @param ctx the parse tree
+	 */
+	enterBlock_stmt?: (ctx: Block_stmtContext) => void;
+	/**
+	 * Exit a parse tree produced by `Python3Parser.block_stmt`.
+	 * @param ctx the parse tree
+	 */
+	exitBlock_stmt?: (ctx: Block_stmtContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.stmt`.
