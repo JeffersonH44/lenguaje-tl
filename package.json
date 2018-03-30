@@ -1,0 +1,16 @@
+{
+    "scripts": {
+        "generate": "antlr4ts -lib ./src/ ./src/Python3.g4",
+        "compile": "tsc -p ./",
+        "parse": "node ./out/main",
+        "test": "npm run compile && npm run parse"
+    },
+    "dependencies": {
+        "@types/node": "^9.6.1"
+    },
+    "devDependencies": {
+        "antlr4ts": "^0.4.1-alpha.0",
+        "antlr4ts-cli": "^0.4.0-alpha.4",
+        "typescript": "^2.8.1"
+    }
+}
