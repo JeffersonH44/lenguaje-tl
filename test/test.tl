@@ -1,8 +1,4 @@
-importar a.b.c
-
-a=1
-
-funcion test(u, c)
-    b=32
-    retorno b
-end funcion
+for i in [1,2,3] {
+    i, b = 32, 34
+    print(test)
+}

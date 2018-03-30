@@ -228,7 +228,8 @@ vfpdef
  ;
 
 block_stmt
- : ( simple_stmt | OPEN_BRACE suite CLOSE_BRACE)
+ : OPEN_BRACE simple_stmt+ CLOSE_BRACE
+ | NEWLINE INDENT simple_stmt NEWLINE DEDENT
  ;
 
 /// stmt: simple_stmt | compound_stmt
@@ -239,7 +240,7 @@ stmt
 
 /// simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 simple_stmt
- : small_stmt ( ';' small_stmt )* ';'? NEWLINE
+ : small_stmt ( ';' small_stmt )* // ';'? NEWLINE
  ;
 
 /// small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
