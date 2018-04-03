@@ -6,13 +6,8 @@ import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 import { Single_inputContext } from './Python3Parser';
 import { File_inputContext } from './Python3Parser';
 import { Eval_inputContext } from './Python3Parser';
-import { DecoratorContext } from './Python3Parser';
-import { DecoratorsContext } from './Python3Parser';
-import { DecoratedContext } from './Python3Parser';
 import { FuncdefContext } from './Python3Parser';
 import { ParametersContext } from './Python3Parser';
-import { TypedargslistContext } from './Python3Parser';
-import { TfpdefContext } from './Python3Parser';
 import { VarargslistContext } from './Python3Parser';
 import { VfpdefContext } from './Python3Parser';
 import { Block_stmtContext } from './Python3Parser';
@@ -22,14 +17,10 @@ import { Small_stmtContext } from './Python3Parser';
 import { Expr_stmtContext } from './Python3Parser';
 import { Testlist_star_exprContext } from './Python3Parser';
 import { AugassignContext } from './Python3Parser';
-import { Del_stmtContext } from './Python3Parser';
-import { Pass_stmtContext } from './Python3Parser';
 import { Flow_stmtContext } from './Python3Parser';
 import { Break_stmtContext } from './Python3Parser';
 import { Continue_stmtContext } from './Python3Parser';
 import { Return_stmtContext } from './Python3Parser';
-import { Yield_stmtContext } from './Python3Parser';
-import { Raise_stmtContext } from './Python3Parser';
 import { Import_stmtContext } from './Python3Parser';
 import { Import_nameContext } from './Python3Parser';
 import { Import_fromContext } from './Python3Parser';
@@ -38,22 +29,13 @@ import { Dotted_as_nameContext } from './Python3Parser';
 import { Import_as_namesContext } from './Python3Parser';
 import { Dotted_as_namesContext } from './Python3Parser';
 import { Dotted_nameContext } from './Python3Parser';
-import { Global_stmtContext } from './Python3Parser';
-import { Nonlocal_stmtContext } from './Python3Parser';
-import { Assert_stmtContext } from './Python3Parser';
 import { Compound_stmtContext } from './Python3Parser';
 import { If_stmtContext } from './Python3Parser';
 import { While_stmtContext } from './Python3Parser';
 import { For_stmtContext } from './Python3Parser';
-import { Try_stmtContext } from './Python3Parser';
-import { With_stmtContext } from './Python3Parser';
-import { With_itemContext } from './Python3Parser';
-import { Except_clauseContext } from './Python3Parser';
 import { SuiteContext } from './Python3Parser';
 import { TestContext } from './Python3Parser';
 import { Test_nocondContext } from './Python3Parser';
-import { LambdefContext } from './Python3Parser';
-import { Lambdef_nocondContext } from './Python3Parser';
 import { Or_testContext } from './Python3Parser';
 import { And_testContext } from './Python3Parser';
 import { Not_testContext } from './Python3Parser';
@@ -73,18 +55,14 @@ import { Testlist_compContext } from './Python3Parser';
 import { TrailerContext } from './Python3Parser';
 import { SubscriptlistContext } from './Python3Parser';
 import { SubscriptContext } from './Python3Parser';
-import { SliceopContext } from './Python3Parser';
 import { ExprlistContext } from './Python3Parser';
 import { TestlistContext } from './Python3Parser';
 import { DictorsetmakerContext } from './Python3Parser';
-import { ClassdefContext } from './Python3Parser';
 import { ArglistContext } from './Python3Parser';
 import { ArgumentContext } from './Python3Parser';
 import { Comp_iterContext } from './Python3Parser';
 import { Comp_forContext } from './Python3Parser';
 import { Comp_ifContext } from './Python3Parser';
-import { Yield_exprContext } from './Python3Parser';
-import { Yield_argContext } from './Python3Parser';
 import { StrContext } from './Python3Parser';
 import { NumberContext } from './Python3Parser';
 import { IntegerContext } from './Python3Parser';
@@ -129,39 +107,6 @@ export interface Python3Listener extends ParseTreeListener {
 	exitEval_input?: (ctx: Eval_inputContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `Python3Parser.decorator`.
-	 * @param ctx the parse tree
-	 */
-	enterDecorator?: (ctx: DecoratorContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.decorator`.
-	 * @param ctx the parse tree
-	 */
-	exitDecorator?: (ctx: DecoratorContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.decorators`.
-	 * @param ctx the parse tree
-	 */
-	enterDecorators?: (ctx: DecoratorsContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.decorators`.
-	 * @param ctx the parse tree
-	 */
-	exitDecorators?: (ctx: DecoratorsContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.decorated`.
-	 * @param ctx the parse tree
-	 */
-	enterDecorated?: (ctx: DecoratedContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.decorated`.
-	 * @param ctx the parse tree
-	 */
-	exitDecorated?: (ctx: DecoratedContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `Python3Parser.funcdef`.
 	 * @param ctx the parse tree
 	 */
@@ -182,28 +127,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitParameters?: (ctx: ParametersContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.typedargslist`.
-	 * @param ctx the parse tree
-	 */
-	enterTypedargslist?: (ctx: TypedargslistContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.typedargslist`.
-	 * @param ctx the parse tree
-	 */
-	exitTypedargslist?: (ctx: TypedargslistContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.tfpdef`.
-	 * @param ctx the parse tree
-	 */
-	enterTfpdef?: (ctx: TfpdefContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.tfpdef`.
-	 * @param ctx the parse tree
-	 */
-	exitTfpdef?: (ctx: TfpdefContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.varargslist`.
@@ -305,28 +228,6 @@ export interface Python3Listener extends ParseTreeListener {
 	exitAugassign?: (ctx: AugassignContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `Python3Parser.del_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterDel_stmt?: (ctx: Del_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.del_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitDel_stmt?: (ctx: Del_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.pass_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterPass_stmt?: (ctx: Pass_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.pass_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitPass_stmt?: (ctx: Pass_stmtContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `Python3Parser.flow_stmt`.
 	 * @param ctx the parse tree
 	 */
@@ -369,28 +270,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitReturn_stmt?: (ctx: Return_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.yield_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterYield_stmt?: (ctx: Yield_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.yield_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitYield_stmt?: (ctx: Yield_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.raise_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterRaise_stmt?: (ctx: Raise_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.raise_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitRaise_stmt?: (ctx: Raise_stmtContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.import_stmt`.
@@ -481,39 +360,6 @@ export interface Python3Listener extends ParseTreeListener {
 	exitDotted_name?: (ctx: Dotted_nameContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `Python3Parser.global_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterGlobal_stmt?: (ctx: Global_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.global_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitGlobal_stmt?: (ctx: Global_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.nonlocal_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterNonlocal_stmt?: (ctx: Nonlocal_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.nonlocal_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitNonlocal_stmt?: (ctx: Nonlocal_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.assert_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterAssert_stmt?: (ctx: Assert_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.assert_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitAssert_stmt?: (ctx: Assert_stmtContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `Python3Parser.compound_stmt`.
 	 * @param ctx the parse tree
 	 */
@@ -558,50 +404,6 @@ export interface Python3Listener extends ParseTreeListener {
 	exitFor_stmt?: (ctx: For_stmtContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `Python3Parser.try_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterTry_stmt?: (ctx: Try_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.try_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitTry_stmt?: (ctx: Try_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.with_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterWith_stmt?: (ctx: With_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.with_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitWith_stmt?: (ctx: With_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.with_item`.
-	 * @param ctx the parse tree
-	 */
-	enterWith_item?: (ctx: With_itemContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.with_item`.
-	 * @param ctx the parse tree
-	 */
-	exitWith_item?: (ctx: With_itemContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.except_clause`.
-	 * @param ctx the parse tree
-	 */
-	enterExcept_clause?: (ctx: Except_clauseContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.except_clause`.
-	 * @param ctx the parse tree
-	 */
-	exitExcept_clause?: (ctx: Except_clauseContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `Python3Parser.suite`.
 	 * @param ctx the parse tree
 	 */
@@ -633,28 +435,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitTest_nocond?: (ctx: Test_nocondContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.lambdef`.
-	 * @param ctx the parse tree
-	 */
-	enterLambdef?: (ctx: LambdefContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.lambdef`.
-	 * @param ctx the parse tree
-	 */
-	exitLambdef?: (ctx: LambdefContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.lambdef_nocond`.
-	 * @param ctx the parse tree
-	 */
-	enterLambdef_nocond?: (ctx: Lambdef_nocondContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.lambdef_nocond`.
-	 * @param ctx the parse tree
-	 */
-	exitLambdef_nocond?: (ctx: Lambdef_nocondContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.or_test`.
@@ -866,17 +646,6 @@ export interface Python3Listener extends ParseTreeListener {
 	exitSubscript?: (ctx: SubscriptContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `Python3Parser.sliceop`.
-	 * @param ctx the parse tree
-	 */
-	enterSliceop?: (ctx: SliceopContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.sliceop`.
-	 * @param ctx the parse tree
-	 */
-	exitSliceop?: (ctx: SliceopContext) => void;
-
-	/**
 	 * Enter a parse tree produced by `Python3Parser.exprlist`.
 	 * @param ctx the parse tree
 	 */
@@ -908,17 +677,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitDictorsetmaker?: (ctx: DictorsetmakerContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.classdef`.
-	 * @param ctx the parse tree
-	 */
-	enterClassdef?: (ctx: ClassdefContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.classdef`.
-	 * @param ctx the parse tree
-	 */
-	exitClassdef?: (ctx: ClassdefContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.arglist`.
@@ -974,28 +732,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitComp_if?: (ctx: Comp_ifContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.yield_expr`.
-	 * @param ctx the parse tree
-	 */
-	enterYield_expr?: (ctx: Yield_exprContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.yield_expr`.
-	 * @param ctx the parse tree
-	 */
-	exitYield_expr?: (ctx: Yield_exprContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.yield_arg`.
-	 * @param ctx the parse tree
-	 */
-	enterYield_arg?: (ctx: Yield_argContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.yield_arg`.
-	 * @param ctx the parse tree
-	 */
-	exitYield_arg?: (ctx: Yield_argContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.str`.

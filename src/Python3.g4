@@ -168,21 +168,6 @@ eval_input
  : testlist NEWLINE* EOF
  ;
 
-/// decorator: '@' dotted_name [ '(' [arglist] ')' ] NEWLINE
-decorator
- : '@' dotted_name ( '(' arglist? ')' )? NEWLINE
- ;
-
-/// decorators: decorator+
-decorators
- : decorator+
- ;
-
-/// decorated: decorators (classdef | funcdef)
-decorated
- : decorators ( classdef | funcdef )
- ;
-
 /// funcdef: 'def' NAME parameters ['->' test] ':' suite
 funcdef
  : DEF NAME parameters suite 'end' DEF
@@ -190,45 +175,35 @@ funcdef
 
 /// parameters: '(' [typedargslist] ')'
 parameters
- : '(' typedargslist? ')'
+ : '(' varargslist? ')'
  ;
 
 /// typedargslist: (tfpdef ['=' test] (',' tfpdef ['=' test])* [','
 ///                ['*' [tfpdef] (',' tfpdef ['=' test])* [',' '**' tfpdef] | '**' tfpdef]]
 ///              |  '*' [tfpdef] (',' tfpdef ['=' test])* [',' '**' tfpdef] | '**' tfpdef)
-typedargslist
- : tfpdef ( '=' test )? ( ',' tfpdef ( '=' test )? )* ( ',' ( '*' tfpdef? ( ',' tfpdef ( '=' test )? )* ( ',' '**' tfpdef )?
-                                                            | '**' tfpdef
-                                                            )?
-                                                      )?
- | '*' tfpdef? ( ',' tfpdef ( '=' test )? )* ( ',' '**' tfpdef )?
- | '**' tfpdef
+/*typedargslist
+ : tfpdef? ( ',' tfpdef )*
  ;
 
 /// tfpdef: NAME [':' test]
 tfpdef
- : NAME ( ':' test )?
- ;
+ : NAME
+ ;*/
 
 /// varargslist: (vfpdef ['=' test] (',' vfpdef ['=' test])* [','
 ///       ['*' [vfpdef] (',' vfpdef ['=' test])* [',' '**' vfpdef] | '**' vfpdef]]
 ///     |  '*' [vfpdef] (',' vfpdef ['=' test])* [',' '**' vfpdef] | '**' vfpdef)
 varargslist
- : vfpdef ( '=' test )? ( ',' vfpdef ( '=' test )? )* ( ',' ( '*' vfpdef? ( ',' vfpdef ( '=' test )? )* ( ',' '**' vfpdef )?
-                                                            | '**' vfpdef
-                                                            )?
-                                                      )?
- | '*' vfpdef? ( ',' vfpdef ( '=' test )? )* ( ',' '**' vfpdef )?
- | '**' vfpdef
+ : vfpdef ( ',' vfpdef )* 
  ;
-
 /// vfpdef: NAME
 vfpdef
  : NAME
  ;
 
 block_stmt
- : ( simple_stmt | OPEN_BRACE suite CLOSE_BRACE)
+ : stmt
+ | OPEN_BRACE stmt+ CLOSE_BRACE
  ;
 
 /// stmt: simple_stmt | compound_stmt
@@ -239,33 +214,28 @@ stmt
 
 /// simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 simple_stmt
- : small_stmt ( ';' small_stmt )* ';'? NEWLINE
+ : small_stmt // ( ';' small_stmt )* ';'? NEWLINE
  ;
 
 /// small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
 ///              import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
 small_stmt
  : expr_stmt
- | del_stmt
- | pass_stmt
  | flow_stmt
  | import_stmt
- | global_stmt
- | nonlocal_stmt
- | assert_stmt
  ;
 
 /// expr_stmt: testlist_star_expr (augassign (yield_expr|testlist) |
 ///                      ('=' (yield_expr|testlist_star_expr))*)
 expr_stmt
- : testlist_star_expr ( augassign ( yield_expr | testlist)
-                      | ( '=' ( yield_expr| testlist_star_expr ) )*
+ : testlist_star_expr ( augassign ( testlist )
+                      | ( '=' ( testlist_star_expr ) )*
                       )
  ;
 
 /// testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
 testlist_star_expr
- : ( test | star_expr ) ( ',' ( test |  star_expr ) )* ','?
+ : ( test_nocond | expr ) ( ',' ( test_nocond |  expr ) )* ','?
  ;
 
 /// augassign: ('+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^=' |
@@ -274,26 +244,9 @@ augassign
  : '+='
  | '-='
  | '*='
- | '@=' // PEP 465
  | '/='
  | '%='
- | '&='
- | '|='
  | '^='
- | '<<='
- | '>>='
- | '**='
- | '//='
- ;
-
-/// del_stmt: 'del' exprlist
-del_stmt
- : DEL exprlist
- ;
-
-/// pass_stmt: 'pass'
-pass_stmt
- : PASS
  ;
 
 /// flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
@@ -301,8 +254,8 @@ flow_stmt
  : break_stmt
  | continue_stmt
  | return_stmt
- | raise_stmt
- | yield_stmt
+// | raise_stmt
+// | yield_stmt
  ;
 
 /// break_stmt: 'break'
@@ -320,16 +273,6 @@ return_stmt
  : RETURN testlist?
  ;
 
-/// yield_stmt: yield_expr
-yield_stmt
- : yield_expr
- ;
-
-/// raise_stmt: 'raise' [test ['from' test]]
-raise_stmt
- : RAISE ( test ( FROM test )? )?
- ;
-
 /// import_stmt: import_name | import_from
 import_stmt
  : import_name
@@ -345,53 +288,12 @@ import_name
 /// import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
 ///               'import' ('*' | '(' import_as_names ')' | import_as_names))
 import_from
- : FROM ( ( '.' | '...' )* dotted_name
-        | ('.' | '...')+
-        )
-   IMPORT ( '*'
-          | '(' import_as_names ')'
-          | import_as_names
-          )
- ;
-
-/// import_as_name: NAME ['as' NAME]
-import_as_name
- : NAME ( AS NAME )?
- ;
-
-/// dotted_as_name: dotted_name ['as' NAME]
-dotted_as_name
- : dotted_name ( AS NAME )?
- ;
-
-/// import_as_names: import_as_name ('.' import_as_name)* ['.']
-import_as_names
- : import_as_name ( '.' import_as_name )* '.'?
+ : FROM NAME import_name
  ;
 
 /// dotted_as_names: dotted_as_name (',' dotted_as_name)*
 dotted_as_names
- : dotted_as_name ( '.' dotted_as_name )*
- ;
-
-/// dotted_name: NAME ('.' NAME)*
-dotted_name
  : NAME ( '.' NAME )*
- ;
-
-/// global_stmt: 'global' NAME (',' NAME)*
-global_stmt
- : GLOBAL NAME ( ',' NAME )*
- ;
-
-/// nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
-nonlocal_stmt
- : NONLOCAL NAME ( ',' NAME )*
- ;
-
-/// assert_stmt: 'assert' test [',' test]
-assert_stmt
- : ASSERT test ( ',' test )?
  ;
 
 /// compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated
@@ -399,11 +301,7 @@ compound_stmt
  : if_stmt
  | while_stmt
  | for_stmt
- | try_stmt
- | with_stmt
  | funcdef
- | classdef
- | decorated
  ;
 
 /// if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
@@ -421,35 +319,6 @@ for_stmt
  : FOR exprlist IN testlist block_stmt
  ;
 
-/// try_stmt: ('try' ':' suite
-///            ((except_clause ':' suite)+
-///       ['else' ':' suite]
-///       ['finally' ':' suite] |
-///      'finally' ':' suite))
-try_stmt
- : TRY ':' suite ( ( except_clause ':' suite )+
-                   ( ELSE ':' suite )?
-                   ( FINALLY ':' suite )?
-                 | FINALLY ':' suite
-                 )
- ;
-
-/// with_stmt: 'with' with_item (',' with_item)*  ':' suite
-with_stmt
- : WITH with_item ( ',' with_item )* ':' suite
- ;
-
-/// with_item: test ['as' expr]
-with_item
- : test ( AS expr )?
- ;
-
-/// # NB compile.c makes sure that the default except clause is last
-/// except_clause: 'except' [test ['as' NAME]]
-except_clause
- : EXCEPT ( test ( AS NAME )? )?
- ;
-
 /// suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 suite
  : simple_stmt
@@ -459,23 +328,11 @@ suite
 /// test: or_test ['if' or_test 'else' test] | lambdef
 test
  : or_test ( IF or_test ELSE test )?
- | lambdef
  ;
 
 /// test_nocond: or_test | lambdef_nocond
 test_nocond
  : or_test
- | lambdef_nocond
- ;
-
-/// lambdef: 'lambda' [varargslist] ':' test
-lambdef
- : LAMBDA varargslist? ':' test
- ;
-
-/// lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
-lambdef_nocond
- : LAMBDA varargslist? ':' test_nocond
  ;
 
 /// or_test: and_test ('or' and_test)*
@@ -510,10 +367,6 @@ comp_op
  | '<='
  | '<>'
  | '!='
- | IN
- | NOT IN
- | IS
- | IS NOT
  ;
 
 /// star_expr: ['*'] expr
@@ -555,8 +408,6 @@ term
  : factor ( '*' factor
           | '/' factor
           | '%' factor
-          | '//' factor
-          | '@' factor // PEP 465
           )*
  ;
 
@@ -564,13 +415,12 @@ term
 factor
  : '+' factor
  | '-' factor
- | '~' factor
  | power
  ;
 
 /// power: atom trailer* ['**' factor]
 power
- : atom trailer* ( '**' factor )?
+ : atom trailer*// ( '**' factor )?
  ;
 
 /// atom: ('(' [yield_expr|testlist_comp] ')' |
@@ -578,7 +428,7 @@ power
 ///        '{' [dictorsetmaker] '}' |
 ///        NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False')
 atom
- : '(' ( yield_expr | testlist_comp )? ')'
+ : '(' ( testlist_comp )? ')'
  | '[' testlist_comp? ']'
  | '{' dictorsetmaker? '}'
  | NAME
@@ -612,12 +462,7 @@ subscriptlist
 /// subscript: test | [test] ':' [test] [sliceop]
 subscript
  : test
- | test? ':' test? sliceop?
- ;
-
-/// sliceop: ':' [test]
-sliceop
- : ':' test?
+ | test? ':' test?
  ;
 
 /// exprlist: star_expr (',' star_expr)* [',']
@@ -640,28 +485,18 @@ dictorsetmaker
         | ( ',' test )* ','?
         )
  ;
-
-/// classdef: 'class' NAME ['(' [arglist] ')'] ':' suite
-classdef
- : CLASS NAME ( '(' arglist? ')' )? ':' suite
- ;
-
 /// arglist: (argument ',')* (argument [',']
 ///                          |'*' test (',' argument)* [',' '**' test]
 ///                          |'**' test)
 arglist
- : ( argument ',' )* ( argument ','?
-                     | '*' test ( ',' argument )* ( ',' '**' test )?
-                     | '**' test
-                     )
+ : ( argument ) (',' argument)*
  ;
 
 /// # The reason that keywords are test nodes instead of NAME is that using NAME
 /// # results in an ambiguity. ast.c makes sure it's a NAME.
 /// argument: test [comp_for] | test '=' test  # Really [keyword '='] test
 argument
- : test comp_for?
- | test '=' test
+ : test
  ;
 
 /// comp_iter: comp_for | comp_if
@@ -680,34 +515,18 @@ comp_if
  : IF test_nocond comp_iter?
  ;
 
-/// yield_expr: 'yield' [testlist]
-yield_expr
- : YIELD yield_arg?
- ;
-
-/// yield_arg: 'from' test | testlist
-yield_arg
- : FROM test
- | testlist
- ;
-
 str
  : STRING_LITERAL
- | BYTES_LITERAL
  ;
 
 number
  : integer
  | FLOAT_NUMBER
- | IMAG_NUMBER
  ;
 
 /// integer        ::=  decimalinteger | octinteger | hexinteger | bininteger
 integer
  : DECIMAL_INTEGER
- | OCT_INTEGER
- | HEX_INTEGER
- | BIN_INTEGER
  ;
 
 /*
@@ -830,28 +649,19 @@ IMAG_NUMBER
  ;
 
 DOT : '.';
-ELLIPSIS : '...';
-STAR : '*';
 OPEN_PAREN : '(' {this.opened++;};
 CLOSE_PAREN : ')' {this.opened--;};
 COMMA : ',';
 COLON : ':';
-SEMI_COLON : ';';
-POWER : '**';
+POWER : '^';
 ASSIGN : '=';
 OPEN_BRACK : '[' {this.opened++;};
 CLOSE_BRACK : ']' {this.opened--;};
-OR_OP : '|';
-XOR : '^';
-AND_OP : '&';
-LEFT_SHIFT : '<<';
-RIGHT_SHIFT : '>>';
 ADD : '+';
 MINUS : '-';
 DIV : '/';
 MOD : '%';
 IDIV : '//';
-NOT_OP : '~';
 OPEN_BRACE : '{' {this.opened++;};
 CLOSE_BRACE : '}' {this.opened--;};
 LESS_THAN : '<';
@@ -859,23 +669,13 @@ GREATER_THAN : '>';
 EQUALS : '==';
 GT_EQ : '>=';
 LT_EQ : '<=';
-NOT_EQ_1 : '<>';
 NOT_EQ_2 : '!=';
-AT : '@';
-ARROW : '->';
 ADD_ASSIGN : '+=';
 SUB_ASSIGN : '-=';
 MULT_ASSIGN : '*=';
-AT_ASSIGN : '@=';
 DIV_ASSIGN : '/=';
 MOD_ASSIGN : '%=';
-AND_ASSIGN : '&=';
-OR_ASSIGN : '|=';
-XOR_ASSIGN : '^=';
-LEFT_SHIFT_ASSIGN : '<<=';
-RIGHT_SHIFT_ASSIGN : '>>=';
-POWER_ASSIGN : '**=';
-IDIV_ASSIGN : '//=';
+POWER_ASSIGN : '^=';
 
 SKIP_
  : ( SPACES | COMMENT | LINE_JOINING ) -> skip
