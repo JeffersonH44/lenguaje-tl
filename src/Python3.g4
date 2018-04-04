@@ -409,7 +409,7 @@ testlist_comp
 
 /// trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
 trailer
- : '(' arglist? ')'
+ : '(' arglist? NEWLINE? ')'
  | '[' subscriptlist ']'
  | '.' NAME
  ;
