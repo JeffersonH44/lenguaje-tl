@@ -239,19 +239,7 @@ augassign
 
 /// flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
 flow_stmt
- : break_stmt
- | continue_stmt
- | return_stmt
- ;
-
-/// break_stmt: 'break'
-break_stmt
- : BREAK
- ;
-
-/// continue_stmt: 'continue'
-continue_stmt
- : CONTINUE
+ : return_stmt
  ;
 
 /// return_stmt: 'return' [testlist]

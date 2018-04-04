@@ -8,8 +8,7 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
         let offSymbol = (<CommonToken>offendingSymbol);
         let found = offSymbol.text;
         let expected;
-        //console.log(e);
-        //console.log(msg);
+
         if(msg.startsWith("missing")) {
             expected = this.functions["missing"](msg);
         } else if(msg.startsWith("extraneous")) {
@@ -53,10 +52,11 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
     };
 
     private toReplace = {
-        NEWLINE: "'\n'",
+        NEWLINE: `'salto_linea'`,
         NAME: "'identificador'",
         STRING_LITERAL: "'valor_string'",
         DECIMAL_INTEGER: "'valor_entero'",
-        FLOAT_NUMBER: "'valor_float'"
+        FLOAT_NUMBER: "'valor_float'",
+        "<EOF>": "'EOF'"
     };
 }

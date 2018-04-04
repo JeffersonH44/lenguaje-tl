@@ -1,0 +1,10 @@
+importar a.b.c
+
+funcion test(a, b)
+    retornar(a)
+end funcion
+
+a = 4
+funcion cast(a)
+    retornar(b)
+end funcion

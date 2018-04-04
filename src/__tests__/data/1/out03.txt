@@ -1,0 +1,1 @@
+<8:1> Error sintactico. Encontrado: 'funcion'; se esperaba: '!', '(', '+', '-', 'EOF', '[', 'desde', 'false', 'for', 'identificador', 'if', 'importar', 'leer', 'log', 'nil', 'retorno', 'salto_linea', 'true', 'valor_entero', 'valor_float', 'valor_string', 'while', '{'.

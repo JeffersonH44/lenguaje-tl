@@ -16,8 +16,6 @@ import { Expr_stmtContext } from './Python3Parser';
 import { Testlist_star_exprContext } from './Python3Parser';
 import { AugassignContext } from './Python3Parser';
 import { Flow_stmtContext } from './Python3Parser';
-import { Break_stmtContext } from './Python3Parser';
-import { Continue_stmtContext } from './Python3Parser';
 import { Return_stmtContext } from './Python3Parser';
 import { Import_stmtContext } from './Python3Parser';
 import { Import_nameContext } from './Python3Parser';
@@ -205,28 +203,6 @@ export interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitFlow_stmt?: (ctx: Flow_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.break_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterBreak_stmt?: (ctx: Break_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.break_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitBreak_stmt?: (ctx: Break_stmtContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `Python3Parser.continue_stmt`.
-	 * @param ctx the parse tree
-	 */
-	enterContinue_stmt?: (ctx: Continue_stmtContext) => void;
-	/**
-	 * Exit a parse tree produced by `Python3Parser.continue_stmt`.
-	 * @param ctx the parse tree
-	 */
-	exitContinue_stmt?: (ctx: Continue_stmtContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `Python3Parser.return_stmt`.
