@@ -2,3 +2,5 @@ node_modules
 .vscode
 out
 .antlr
+src/Python3*.ts
+src/Python3*.tokens
