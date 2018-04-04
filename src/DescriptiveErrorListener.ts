@@ -18,7 +18,7 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
         expected = expected.trim();
         expected = this.replaceTokens(expected);
 
-        let toShow = `<${line}:${charPositionInLine + 1}> Error sintactico. Encontrado '${found}'; se esperaba: ${expected}.`;
+        let toShow = `<${line}:${charPositionInLine + 1}> Error sintactico. Encontrado: '${found}'; se esperaba: ${expected}.`;
 
         throw new RangeError(toShow);
     }

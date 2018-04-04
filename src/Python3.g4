@@ -151,23 +151,6 @@ tokens { INDENT, DEDENT }
  * parser rules
  */
 
-/// single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
-/*single_input
- : NEWLINE
- | simple_stmt
- | compound_stmt NEWLINE
- ;
-
-/// file_input: (NEWLINE | stmt)* ENDMARKER
-file_input
- : ( NEWLINE | stmt )* EOF
- ;
-
-/// eval_input: testlist NEWLINE* ENDMARKER
-eval_input
- : testlist NEWLINE* EOF
- ;*/
-
  tl_input
  : NEWLINE* (import_stmt NEWLINE*)* (funcdef NEWLINE*)* (stmt NEWLINE*)*  EOF
  ;
@@ -272,7 +255,7 @@ continue_stmt
 
 /// return_stmt: 'return' [testlist]
 return_stmt
- : RETURN testlist?
+ : RETURN '(' testlist? ')'
  ;
 
 /// import_stmt: import_name | import_from
@@ -303,7 +286,7 @@ compound_stmt
  : if_stmt
  | while_stmt
  | for_stmt
- | funcdef
+ // | funcdef
  ;
 
 /// if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
@@ -367,7 +350,6 @@ comp_op
  | '=='
  | '>='
  | '<='
- | '<>'
  | '!='
  ;
 
@@ -408,7 +390,8 @@ power
 ///        '{' [dictorsetmaker] '}' |
 ///        NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False')
 atom
- : '(' testlist_comp? ')'
+ : (READ | LOG) '(' argument NEWLINE* ')'
+ | '(' testlist_comp? ')'
  | '[' testlist_comp? ']'
  | '{' NEWLINE? dictorsetmaker? NEWLINE? '}'
  | NAME
@@ -421,7 +404,7 @@ atom
 
 /// testlist_comp: test ( comp_for | (',' test)* [','] )
 testlist_comp
- : test NEWLINE? ( ',' NEWLINE? test NEWLINE?)*
+ : test ( ',' test)*
  ;
 
 /// trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
@@ -461,14 +444,14 @@ dictorsetmaker
 ///                          |'*' test (',' argument)* [',' '**' test]
 ///                          |'**' test)
 arglist
- : ( argument ) (',' argument)*
+ : argument (',' argument)*
  ;
 
 /// # The reason that keywords are test nodes instead of NAME is that using NAME
 /// # results in an ambiguity. ast.c makes sure it's a NAME.
 /// argument: test [comp_for] | test '=' test  # Really [keyword '='] test
 argument
- : test
+ : test NEWLINE?
  ;
 
 /// comp_iter: comp_for | comp_if
@@ -504,7 +487,8 @@ integer
 /*
  * lexer rules
  */
-
+READ : 'leer';
+LOG: 'log';
 DEF : 'funcion';
 RETURN : 'retorno';
 RAISE : 'raise';
@@ -584,7 +568,6 @@ ADD : '+';
 MINUS : '-';
 DIV : '/';
 MOD : '%';
-IDIV : '//';
 OPEN_BRACE : '{' {this.opened++;};
 CLOSE_BRACE : '}' {this.opened--;};
 LESS_THAN : '<';
