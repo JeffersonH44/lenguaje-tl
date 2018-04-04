@@ -1,0 +1,2 @@
+puesto(34
+leer(50)

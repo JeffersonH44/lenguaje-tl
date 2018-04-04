@@ -8,7 +8,8 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
         let offSymbol = (<CommonToken>offendingSymbol);
         let found = offSymbol.text;
         let expected;
-        console.log(msg);
+        //console.log(e);
+        //console.log(msg);
         if(msg.startsWith("missing")) {
             expected = this.functions["missing"](msg);
         } else if(msg.startsWith("extraneous")) {

@@ -152,7 +152,7 @@ tokens { INDENT, DEDENT }
  */
 
  tl_input
- : NEWLINE* (import_stmt NEWLINE*)* (funcdef NEWLINE*)* (stmt NEWLINE*)*  EOF
+ : NEWLINE* (import_stmt NEWLINE*)* (funcdef NEWLINE*)* (stmt NEWLINE*)* EOF
  ;
 
 /// funcdef: 'def' NAME parameters ['->' test] ':' suite
@@ -195,8 +195,8 @@ block_stmt
 
 /// stmt: simple_stmt | compound_stmt
 stmt
- : (simple_stmt
-    | compound_stmt)
+ : simple_stmt
+ | compound_stmt
  ;
 
 /// simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
@@ -207,7 +207,8 @@ simple_stmt
 /// small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
 ///              import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
 small_stmt
- : expr_stmt
+ : (READ | LOG) '(' argument NEWLINE? ')'
+ | expr_stmt
  | flow_stmt
  | import_stmt
  ;
@@ -222,7 +223,7 @@ expr_stmt
 
 /// testlist_star_expr: (test|star_expr) (',' (test|star_expr))* [',']
 testlist_star_expr
- : ( test_nocond | expr ) ( ',' ( test_nocond |  expr ) )* ','?
+ : ( test_nocond )
  ;
 
 /// augassign: ('+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^=' |
@@ -390,8 +391,7 @@ power
 ///        '{' [dictorsetmaker] '}' |
 ///        NAME | NUMBER | STRING+ | '...' | 'None' | 'True' | 'False')
 atom
- : (READ | LOG) '(' argument NEWLINE* ')'
- | '(' testlist_comp? ')'
+ : '(' testlist_comp? ')'
  | '[' testlist_comp? ']'
  | '{' NEWLINE? dictorsetmaker? NEWLINE? '}'
  | NAME
@@ -451,7 +451,7 @@ arglist
 /// # results in an ambiguity. ast.c makes sure it's a NAME.
 /// argument: test [comp_for] | test '=' test  # Really [keyword '='] test
 argument
- : test NEWLINE?
+ : test
  ;
 
 /// comp_iter: comp_for | comp_if
