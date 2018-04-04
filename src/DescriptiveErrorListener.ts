@@ -8,8 +8,7 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
         let offSymbol = (<CommonToken>offendingSymbol);
         let found = offSymbol.text;
         let expected;
-        //console.log(e);
-        //console.log(line, charPositionInLine, msg);
+        console.log(msg);
         if(msg.startsWith("missing")) {
             expected = this.functions["missing"](msg);
         } else if(msg.startsWith("extraneous")) {
@@ -19,8 +18,9 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
         expected = expected.trim();
         expected = this.replaceTokens(expected);
 
-        console.error(`<${line}:${charPositionInLine}> Error sintactico. Encontrado '${found}'; se esperaba: ${expected}.`);
-        process.exit(0);
+        let toShow = `<${line}:${charPositionInLine + 1}> Error sintactico. Encontrado '${found}'; se esperaba: ${expected}.`;
+
+        throw new RangeError(toShow);
     }
 
     private replaceTokens(expected: string) {
@@ -38,7 +38,6 @@ export default class DescriptiveErrorListener implements ANTLRErrorListener<Symb
 
     private onMissing(msg: string) {
         let output = msg.split(/at\s|missing\s/g);
-        console.log(output);
         return output[output.length - 2];
     }
     

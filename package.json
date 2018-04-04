@@ -1,16 +1,39 @@
 {
+    "name": "lenguaje-tl",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JeffersonH44/lenguaje-tl"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "json",
+            "node"
+        ]
+    },
+    "license": "MIT",
     "scripts": {
         "generate": "antlr4ts -lib ./src/ ./src/Python3.g4",
         "compile": "tsc -p ./",
         "parse": "node ./out/main",
-        "test": "npm run compile && npm run parse"
+        "test": "npm run generate && jest"
     },
     "dependencies": {
         "@types/node": "^9.6.1"
     },
     "devDependencies": {
+        "@types/jest": "^22.2.2",
         "antlr4ts": "^0.4.1-alpha.0",
         "antlr4ts-cli": "^0.4.0-alpha.4",
+        "jest": "^22.4.3",
+        "ts-jest": "^22.4.2",
         "typescript": "^2.8.1"
     }
 }
